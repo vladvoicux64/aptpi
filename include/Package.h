@@ -7,7 +7,6 @@
 
 
 #include "string"
-#include "ctime"
 #include "vector"
 
 
@@ -18,18 +17,11 @@ typedef enum package_installation_mode {
 
 
 class Package {
-protected:
     std::string name_;
-    tm installation_date_;
     package_installation_mode installation_mode_;
-    std::vector<Package *> parent_packages_;
-    std::vector<Package *> dependencies_;
 public:
-    Package(std::string name, const tm &installation_date, const package_installation_mode &installation_mode,
-            const std::vector<Package *> &parent_packages, const std::vector<Package *> &dependencies);
-
-    void add_parent_package(Package *parent);
-    void print_information() const;
+    Package(std::string name, const package_installation_mode &installation_mode);
+    std::string get_name();
     friend std::ostream & operator<<(std::ostream &ostream, const Package &package);
 };
 
