@@ -4,6 +4,9 @@
 
 #include "Package.h"
 #include <utility>
+#include <ostream>
+#include <ctime>
+#include <iostream>
 
 
 Package::Package(std::string name, const tm &installation_date, const package_installation_mode &installation_mode,
@@ -21,4 +24,28 @@ Package::Package(std::string name, const tm &installation_date, const package_in
 void Package::add_parent_package(Package *const parent)
 {
     this->parent_packages_.emplace_back(parent);
+}
+
+void Package::print_information() const
+{
+    std::cout << *this;
+}
+
+std::ostream & operator<<(std::ostream &ostream, const Package &package)
+{
+    char installation_date_string[128];
+    strftime(installation_date_string, sizeof installation_date_string, "%c\n", &package.installation_date_);
+    ostream << "Package name: " << package.name_ << std::endl;
+    ostream << "Installed at: " << installation_date_string;
+    ostream << "Installation mode: " << (package.installation_mode_ ? "automatic" : "manual") << std::endl;
+    ostream << "Dependencies: " << std::endl;
+    if(!package.dependencies_.empty())
+    {
+        for (const auto& dependency : package.dependencies_)
+        {
+            ostream << "\t" << dependency->name_ << ' ';
+        }
+    }
+    else ostream << "\tTh. package has no dependencies.";
+    return ostream;
 }

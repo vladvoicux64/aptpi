@@ -29,6 +29,8 @@ public:
             const std::vector<Package *> &parent_packages, const std::vector<Package *> &dependencies);
 
     void add_parent_package(Package *parent);
+    void print_information() const;
+    friend std::ostream & operator<<(std::ostream &ostream, const Package &package);
 };
 
 
