@@ -1,14 +1,14 @@
-#include "Package.h"
-#include "Installation.h"
-#include <ctime>
+#include "Session.h"
 #include <iostream>
 
 
 int main() {
-    Package pckg1("master", AUTOMATIC), pckg2("dependency", MANUAL);
-    Installation install({pckg1}, {pckg2});
-    std::cout << install;
-    std::cout << pckg2.get_name() << std::endl;
-    std::cout << install.get_package_count();
+    Session sesh("../history.log.txt");
+    Session sesh2(sesh);
+    sesh2.scan_history();
+    Session sesh3 = sesh;
+    sesh3 = sesh2;
+
+    sesh3.display_installations_info(1);
     return 0;
 }

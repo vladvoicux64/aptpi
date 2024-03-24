@@ -116,7 +116,9 @@ add_executable(${PROJECT_NAME} src/main.cpp
         src/Package.cpp
         include/Package.h
         src/Installation.cpp
-        include/Installation.h)
+        include/Installation.h
+        src/Session.cpp
+        include/Session.h)
 
 ###############################################################################
 
