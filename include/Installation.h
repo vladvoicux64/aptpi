@@ -28,7 +28,8 @@ public:
     [[maybe_unused]] void add_master(const Package &master);
 
     [[maybe_unused]] void add_dependency(const Package &dependency);
-    std::size_t get_package_count();
+
+    [[maybe_unused]] std::size_t get_package_count();
     friend std::ostream &operator<<(std::ostream &ostream, const Installation &installation);
 };
 
