@@ -47,7 +47,12 @@ void Installation::set_installation_date(const tm &installation_date)
     this->installation_date_ = installation_date;
 }
 
-void Installation::set_dependencies(const std::vector<Package> &dependencies)
+void Installation::set_master_package(const Package &master)
 {
-    this->dependencies_ = dependencies;
+    this->master_ = master;
+}
+
+void Installation::add_dependency(const Package &dependency)
+{
+    this->dependencies_.emplace_back(dependency);
 }
