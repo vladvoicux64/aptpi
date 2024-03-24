@@ -11,6 +11,11 @@ Installation::Installation(const tm &installation_date, Package master, const st
           dependencies_(dependencies), installation_date_(installation_date)
 {}
 
+std::size_t Installation::get_package_count()
+{
+    return 1 + this->dependencies_.size();
+}
+
 std::ostream &operator<<(std::ostream &ostream, const Installation &installation)
 {
     char date_buffer[128];
