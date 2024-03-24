@@ -4,12 +4,13 @@
 
 #include <string>
 #include <ctime>
+#include <iomanip>
 #include <sstream>
 #include <iostream>
 #include "Session.h"
 #include "Package.h"
 
-std::vector<std::string> split_str(std::string s, std::string delimiter)
+std::vector<std::string> split_str(const std::string &s, const std::string &delimiter)
 {
     size_t pos_start = 0, pos_end, delim_len = delimiter.length();
     std::string token;
@@ -36,9 +37,9 @@ void Session::scan_history()
 
 
     while (std::getline(this->history_file_, line)) {
-        if (line != "") buff.emplace_back(line);
+        if (!line.empty()) buff.emplace_back(line);
         if (line.starts_with("End-Date")) {
-            if (buff.size() >= 5 && buff[1].find(" install ") != buff[1].npos) {
+            if (buff.size() >= 5 && buff[1].find(" install ") != std::string::npos) {
                 tm start_date = {};
                 buff[0].erase(0, 12);
                 std::stringstream time_line_ss(buff[0]);
@@ -51,10 +52,11 @@ void Session::scan_history()
                 buff.clear();
                 buff = split_str(line, "),");
 
-                for (auto pckg: buff) {
+                for (const auto &pckg: buff) {
                     size_t name_end = pckg.find(':');
                     std::string pckg_name = pckg.substr(0, name_end);
-                    package_installation_mode pckg_inst_mode = ((pckg.find(", automatic") != pckg.npos) ? AUTOMATIC
+                    package_installation_mode pckg_inst_mode = ((pckg.find(", automatic") != std::string::npos)
+                                                                ? AUTOMATIC
                                                                                                         : MANUAL);
                     if (pckg_inst_mode == MANUAL) {
                         in_progress.add_master({pckg_name, pckg_inst_mode});
