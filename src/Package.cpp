@@ -24,6 +24,6 @@ std::string Package::get_name() const
 std::ostream & operator<<(std::ostream &ostream, const Package &package)
 {
     ostream << "Package name: " << package.name_ << std::endl;
-    ostream << "Installation mode: " << (package.installation_mode_ ? "automatic" : "manual") << std::endl;
+    ostream << "Installation mode: " << (package.installation_mode_ ? "manual" : "automatic") << std::endl;
     return ostream;
 }
