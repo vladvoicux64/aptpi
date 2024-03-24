@@ -23,11 +23,11 @@ public:
     Installation(const std::vector<Package> &masters = {{"___NULLPCKG___", AUTOMATIC}},
                  const std::vector<Package> &dependencies = {});
 
-    void set_installation_date(const tm &installation_date);
+    [[maybe_unused]] void set_installation_date(const tm &installation_date);
 
-    void add_master(const Package &master);
+    [[maybe_unused]] void add_master(const Package &master);
 
-    void add_dependency(const Package &dependency);
+    [[maybe_unused]] void add_dependency(const Package &dependency);
     std::size_t get_package_count();
     friend std::ostream &operator<<(std::ostream &ostream, const Installation &installation);
 };
