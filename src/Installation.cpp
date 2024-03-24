@@ -41,3 +41,8 @@ std::ostream &operator<<(std::ostream &ostream, const Installation &installation
     }
     return ostream;
 }
+
+void Installation::set_installation_date(const tm &installation_date)
+{
+    this->installation_date_ = installation_date;
+}

@@ -21,6 +21,7 @@ public:
 
     Installation(Package master, const std::vector<Package> &dependencies = {});
 
+    void set_installation_date(const tm &installation_date);
     std::size_t get_package_count();
     friend std::ostream &operator<<(std::ostream &ostream, const Installation &installation);
 };
