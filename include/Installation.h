@@ -17,9 +17,10 @@ class Installation {
     std::vector<Package> dependencies_;
     tm installation_date_;
 public:
-    Installation(const tm &installation_date, Package master, const std::vector<Package> &dependencies = {});
+    Installation(const tm &installation_date, Package master = {"___NULLPCKG___", AUTOMATIC},
+                 const std::vector<Package> &dependencies = {});
 
-    Installation(Package master, const std::vector<Package> &dependencies = {});
+    Installation(Package master = {"___NULLPCKG___", AUTOMATIC}, const std::vector<Package> &dependencies = {});
 
     void set_installation_date(const tm &installation_date);
 
