@@ -21,7 +21,8 @@ class Package {
     package_installation_mode installation_mode_;
 public:
     Package(std::string name, const package_installation_mode &installation_mode);
-    std::string get_name();
+
+    std::string get_name() const;
     friend std::ostream & operator<<(std::ostream &ostream, const Package &package);
 };
 

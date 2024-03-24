@@ -16,7 +16,7 @@ Package::Package(std::string name, const package_installation_mode &installation
 // ^^^ De ce nu am folosit const & la name: varianta utilizata de mine elimina total copy-urile atunci cand name este un rvalue, comparat cu un copy daca as fi folosit const &.
 // Un thread de Stack Overflow relevant: https://stackoverflow.com/questions/51705967/advantages-of-pass-by-value-and-stdmove-over-pass-by-reference/51706522
 
-std::string Package::get_name()
+std::string Package::get_name() const
 {
     return this->name_;
 }
