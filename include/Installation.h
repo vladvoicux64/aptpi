@@ -13,18 +13,19 @@
 
 
 class Installation {
-    Package master_;
+    std::vector<Package> masters_;
     std::vector<Package> dependencies_;
     tm installation_date_;
 public:
-    Installation(const tm &installation_date, Package master = {"___NULLPCKG___", AUTOMATIC},
+    Installation(const tm &installation_date, const std::vector<Package> &masters = {{"___NULLPCKG___", AUTOMATIC}},
                  const std::vector<Package> &dependencies = {});
 
-    Installation(Package master = {"___NULLPCKG___", AUTOMATIC}, const std::vector<Package> &dependencies = {});
+    Installation(const std::vector<Package> &masters = {{"___NULLPCKG___", AUTOMATIC}},
+                 const std::vector<Package> &dependencies = {});
 
     void set_installation_date(const tm &installation_date);
 
-    void set_master_package(const Package &master);
+    void add_master(const Package &master);
 
     void add_dependency(const Package &dependency);
     std::size_t get_package_count();

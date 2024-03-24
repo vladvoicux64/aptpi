@@ -5,8 +5,8 @@
 
 
 int main() {
-    Package pckg1("dependency", AUTOMATIC), pckg2("dependency", MANUAL);
-    Installation install(pckg1, {pckg2});
+    Package pckg1("master", AUTOMATIC), pckg2("dependency", MANUAL);
+    Installation install({pckg1}, {pckg2});
     std::cout << install;
     std::cout << pckg2.get_name() << std::endl;
     std::cout << install.get_package_count();
