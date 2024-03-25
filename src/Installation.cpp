@@ -32,17 +32,17 @@ std::ostream &operator<<(std::ostream &ostream, const Installation &installation
     strftime(date_buffer, 128, "%c\n", &installation.installation_date_);
 
     ostream << "Installation date: " << date_buffer;
-    ostream << "Packages installed:\n\n";
+    ostream << "\nPackages installed:\n\n";
     for (const auto &master: installation.masters_) {
-        ostream << master << std::endl;
+        ostream << master;
     }
     if (!installation.dependencies_.empty()) {
         ostream << "\nDependencies installed:\n\n";
         for (const auto &dependency: installation.dependencies_) {
-            ostream << dependency << std::endl;
+            ostream << dependency;
         }
     } else {
-        ostream << "\nThis package did not install any dependencies.\n";
+        ostream << "This package did not install any dependencies.\n";
     }
     return ostream;
 }
