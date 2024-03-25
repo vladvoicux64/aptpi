@@ -27,7 +27,8 @@ public:
 
     void scan_history();
 
-    [[maybe_unused]] void display_installations_info(size_t index = -1);
+    [[maybe_unused]] std::string display_installations_info(size_t index = -1);
+    [[maybe_unused]] std::string generate_uninstall_command(size_t index);
 
     friend std::ostream &operator<<(std::ostream &ostream, const Session &session);
 };

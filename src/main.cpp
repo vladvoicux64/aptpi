@@ -10,6 +10,7 @@ int main() {
     std::cout << sesh3;
     sesh3 = sesh2;
 
-    sesh3.display_installations_info(1);
+    std::cout << sesh3.display_installations_info(1);
+    std::cout << sesh3.generate_uninstall_command(1);
     return 0;
 }

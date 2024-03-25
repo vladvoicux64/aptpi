@@ -6,7 +6,6 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
-#include <iostream>
 #include "Session.h"
 #include "Package.h"
 
@@ -39,15 +38,15 @@ void Session::scan_history()
     while (std::getline(this->history_file_, line)) {
         if (!line.empty()) buff.emplace_back(line);
         if (line.starts_with("End-Date")) {
-            if (buff.size() >= 5 && buff[1].find(" install ") != std::string::npos) {
+            if (buff.size() >= 5 && buff.at(1).find(" install ") != std::string::npos) {
                 tm start_date = {};
-                buff[0].erase(0, 12);
-                std::stringstream time_line_ss(buff[0]);
+                buff.at(0).erase(0, 12);
+                std::stringstream time_line_ss(buff.at(0));
                 time_line_ss >> std::get_time(&start_date, "%F  %T");
 
                 Installation in_progress(start_date);
 
-                line = buff[3];
+                line = buff.at(3);
                 line.erase(0, 9);
                 buff.clear();
                 buff = split_str(line, "),");
@@ -55,9 +54,9 @@ void Session::scan_history()
                 for (const auto &pckg: buff) {
                     size_t name_end = pckg.find(':');
                     std::string pckg_name = pckg.substr(0, name_end);
+                    pckg_name.erase(0,pckg_name.find_first_not_of(" \n\r\t"));
                     package_installation_mode pckg_inst_mode = ((pckg.find(", automatic") != std::string::npos)
-                                                                ? AUTOMATIC
-                                                                                                        : MANUAL);
+                                                                ? AUTOMATIC : MANUAL);
                     if (pckg_inst_mode == MANUAL) {
                         in_progress.add_master({pckg_name, pckg_inst_mode});
                     } else in_progress.add_dependency({pckg_name, pckg_inst_mode});
@@ -82,25 +81,26 @@ std::ostream &operator<<(std::ostream &ostream, const Session &session)
     ostream << "The logfile is at: " << session.file_path_ << std::endl;
     ostream
             << "To display more information, use the .dispaly_installations_info(1) method, specifying an index out of the "
-            << session.installations_.size() << " installations.";
-    ostream << "Do not specify an index to display all the installations.";
+            << session.installations_.size() << " installations. ";
+    ostream << "Do not specify an index to display all the installations. ";
     ostream << "The information will be displayed to your console.";
     return ostream;
 }
 
-void Session::display_installations_info(size_t index)
+std::string Session::display_installations_info(size_t index)
 {
+    std::stringstream sstream{};
     size_t inst_count = this->installations_.size();
     if (index == (size_t) -1) {
-        std::cout << "Displaying " << inst_count << " installations:\n\n";
+        sstream << "Displaying " << inst_count << " installations:\n\n";
         for (const auto &installation: this->installations_) {
-            std::cout << installation << std::endl;
+            sstream << installation << std::endl;
         }
-        return;
     } else if ((index < inst_count)) {
-        std::cout << "Displaying the installation number " << index << ":\n\n";
-        std::cout << this->installations_[index];
-    } else std::cout << "Invalid index.";
+        sstream << "Displaying the installation number " << index << ":\n\n";
+        sstream << this->installations_.at(index) << std::endl;
+    } else sstream << "Invalid index.";
+    return sstream.str();
 }
 
 Session::Session(Session &other) : history_file_(other.file_path_), file_path_(other.file_path_),
@@ -114,4 +114,13 @@ Session &Session::operator=(const Session &other)
     this->file_path_ = other.file_path_;
     this->installations_ = other.installations_;
     return *this;
+}
+
+std::string Session::generate_uninstall_command(size_t index)
+{
+    std::stringstream sstream{};
+    sstream << "Use the following command to uninstall installation " << index << ":\n";
+    sstream << "NOTE: You may break other packages that depend on the packages in the following command. Use with caution.\n";
+    sstream << "sudo apt autoremove --purge " << this->installations_.at(index).get_package_names();
+    return sstream.str();
 }
