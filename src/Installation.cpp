@@ -3,6 +3,8 @@
 //
 
 #include <ctime>
+#include <string>
+#include <sstream>
 #include "Installation.h"
 
 
@@ -54,11 +56,27 @@ void Installation::set_installation_date(const tm &installation_date)
 
 void Installation::add_master(const Package &master)
 {
-    if (this->masters_[0].get_name() == "___NULLPCKG___") this->masters_.clear();
+    if (this->masters_.at(0).get_name() == "___NULLPCKG___") this->masters_.clear();
     this->masters_.emplace_back(master);
 }
 
 void Installation::add_dependency(const Package &dependency)
 {
     this->dependencies_.emplace_back(dependency);
+}
+
+std::string Installation::get_package_names()
+{
+    std::stringstream sstream{};
+    for (const auto &master : this->masters_)
+    {
+        sstream << master.get_name() << ' ';
+    }
+    for (const auto &dependency : this->dependencies_)
+    {
+        sstream << dependency.get_name() << ' ';
+    }
+    std::string rv{sstream.str()};
+    rv.pop_back();
+    return rv;
 }
