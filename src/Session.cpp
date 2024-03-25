@@ -118,9 +118,15 @@ Session &Session::operator=(const Session &other)
 
 std::string Session::generate_uninstall_command(size_t index)
 {
+    //TODO exception catching
     std::stringstream sstream{};
-    sstream << "Use the following command to uninstall installation " << index << ":\n";
-    sstream << "NOTE: You may break other packages that depend on the packages in the following command. Use with caution.\n";
-    sstream << "sudo apt autoremove --purge " << this->installations_.at(index).get_package_names();
+    if(index < this->installations_.size())
+    {
+        sstream << "Use the following command to uninstall installation " << index << ":\n";
+        sstream << "NOTE: You may break other packages that depend on the packages in the following command. Use with caution.\n";
+        sstream << "sudo apt autoremove --purge " << this->installations_.at(index).get_package_names() << std::endl;
+    }
+    else sstream << "Failed attempt at generating uninstall command at index " << index << ": invalid index.\n";
+
     return sstream.str();
 }
