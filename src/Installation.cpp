@@ -23,7 +23,7 @@ Installation::Installation(const std::vector<Package> &masters,
     this->installation_date_ = *localtime(&now);
 }
 
-std::size_t Installation::get_package_count()
+std::size_t Installation::get_package_count() const
 {
     return 1 + this->dependencies_.size();
 }
@@ -65,7 +65,7 @@ void Installation::add_dependency(const Package &dependency)
     this->dependencies_.emplace_back(dependency);
 }
 
-std::string Installation::get_package_names()
+std::string Installation::get_package_names() const
 {
     std::stringstream sstream{};
     for (const auto &master : this->masters_)

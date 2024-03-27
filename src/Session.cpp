@@ -87,7 +87,7 @@ std::ostream &operator<<(std::ostream &ostream, const Session &session)
     return ostream;
 }
 
-std::string Session::display_installations_info(size_t index)
+std::string Session::display_installations_info(size_t index) const
 {
     std::stringstream sstream{};
     size_t inst_count = this->installations_.size();
@@ -116,7 +116,7 @@ Session &Session::operator=(const Session &other)
     return *this;
 }
 
-std::string Session::generate_uninstall_command(size_t index)
+std::string Session::generate_uninstall_command(size_t index) const
 {
     //TODO exception catching
     std::stringstream sstream{};
