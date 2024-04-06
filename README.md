@@ -1,3 +1,5 @@
+![An image of a detective.](https://github.com/vladvoicux64/aptpd/blob/main/icons/icon1.webp "aptpd logo")
+
 # aptpd - a package tracker for apt
 
 ### Motivation
